@@ -1,10 +1,11 @@
 package sample;
 
-import static sample.Main.HEIGHT;
-import static sample.Main.WIDTH;
 import javafx.scene.image.Image;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.shape.Shape;
+
+import static sample.Main.HEIGHT;
+import static sample.Main.WIDTH;
 
 public class MainCharacter extends Hero {
     protected boolean collideProp = false;
@@ -17,7 +18,7 @@ public class MainCharacter extends Hero {
     protected Main main;
     private boolean animator = false;
     private byte framecounter = 0;
-    private byte runningspeed = 6;
+    private final byte runningspeed = 6;
 
     public MainCharacter(Main main, String SVGdata, double xLocation, double yLocation, Image... spriteCels) {
         super(SVGdata, xLocation, yLocation, spriteCels);
@@ -60,7 +61,8 @@ public class MainCharacter extends Hero {
 
     private void setXYLocationIfCollide() {
         if(main.isRight()) { iX -= vX * 2; }
-        if(main.isLeft()) { iX += vX * 2; }if(main.isDown()) { iY -= vY * 2; }
+        if(main.isLeft()) { iX += vX * 2; }
+        if(main.isDown()) { iY -= vY * 2; }
         if(main.isUp()) { iY += vY * 2; }
     }
 
@@ -98,6 +100,40 @@ public class MainCharacter extends Hero {
                     spriteFrame.setImage(imageStates.get(2));
                 } else {
                     spriteFrame.setImage(imageStates.get(1));
+                }
+                if (framecounter >= runningspeed) {
+                    animator = !animator;
+                    framecounter = 0;
+                } else {
+                    framecounter += 1;
+                }
+            }
+        }
+        if (main.isUp()) {
+            spriteFrame.setScaleX(1);
+            //this.setIsFlipH(false);
+            if (!main.isRight() && !main.isLeft()) {
+                if (animator) {
+                    spriteFrame.setImage(imageStates.get(3));
+                } else {
+                    spriteFrame.setImage(imageStates.get(4));
+                }
+                if (framecounter >= runningspeed) {
+                    animator = !animator;
+                    framecounter = 0;
+                } else {
+                    framecounter += 1;
+                }
+            }
+        }
+        if (main.isDown()) {
+            spriteFrame.setScaleX(1);
+            //this.setIsFlipH(false);
+            if (!main.isRight() && !main.isLeft()) {
+                if (animator) {
+                    spriteFrame.setImage(imageStates.get(5));
+                } else {
+                    spriteFrame.setImage(imageStates.get(6));
                 }
                 if (framecounter >= runningspeed) {
                     animator = !animator;
